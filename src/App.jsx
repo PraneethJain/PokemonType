@@ -1,7 +1,7 @@
 import "./App.css";
 
 function App() {
-  return <h1>ok</h1>;
+  return <h1>two words</h1>;
 }
 
 export default App;
