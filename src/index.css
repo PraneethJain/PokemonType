@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'pokefont';
-  src: url(./assets/PokemonGb-RAeo.ttf) format('truetype');
+  font-family: "pokefont";
+  src: url(./assets/PokemonGb-RAeo.ttf) format("truetype");
 }
 
 :root {

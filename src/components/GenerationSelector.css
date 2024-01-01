@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+.dot {
+  width: 0.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid white;
+  margin-right: 0.2rem;
+}
+
+.generation {
+  font-size: 0.8rem;
+  padding: 0.1rem 0.2rem;
+  cursor: pointer;
+  user-select: none;
+  word-spacing: -0.5rem;
+  letter-spacing: -0.1rem;
+  border-radius: 1rem;
+}
+
+.generation:hover {
+  background-color: rgba(255, 255, 255, 0.13);
+}
