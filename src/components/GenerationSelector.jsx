@@ -1,11 +1,16 @@
 /* eslint-disable react/prop-types */
 import "./GenerationSelector.css";
 
-function Circle({ filled }) {
-  let backgroundColor = filled ? "white" : "transparent";
-  let style = { backgroundColor };
-
-  return <span className="dot" style={style}></span>;
+function Generation({ filled, idx }) {
+  return (
+    <>
+      <span
+        className="dot"
+        style={{ backgroundColor: filled ? "white" : "transparent" }}
+      ></span>{" "}
+      Gen {idx + 1}
+    </>
+  );
 }
 
 function GenerationSelector({ generations, setGenerations }) {
@@ -23,8 +28,7 @@ function GenerationSelector({ generations, setGenerations }) {
           onClick={() => updateGenerations(idx)}
           className="generation"
         >
-          <Circle filled={val}></Circle>
-          Gen {idx + 1}
+          <Generation filled={val} idx={idx}></Generation>
         </div>
       ))}
     </div>
