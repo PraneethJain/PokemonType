@@ -1,4 +1,5 @@
 import { GenerationSelector } from "./components/GenerationSelector";
+import { Guesser } from "./components/Guesser";
 import { useState } from "react";
 import "./App.css";
 
@@ -7,10 +8,16 @@ function App() {
 
   return (
     <>
-      <GenerationSelector
-        generations={generations}
-        setGenerations={setGenerations}
-      ></GenerationSelector>
+      <div className="top">
+        <GenerationSelector
+          generations={generations}
+          setGenerations={setGenerations}
+        ></GenerationSelector>
+      </div>
+      <div className="middle">
+        <Guesser />
+      </div>
+      <div className="bottom">bottom</div>
     </>
   );
 }

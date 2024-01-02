@@ -3,9 +3,24 @@
   height: 100vh;
   background-image: url("./assets/bg.jpg");
   background-size: cover;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: "pokefont";
+
+  display: grid;
+  grid-template-rows: 1fr 10fr 1fr;
+}
+
+.top {
+  justify-self: flex-start;
+}
+
+.middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

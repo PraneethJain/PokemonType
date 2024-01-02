@@ -1,15 +1,14 @@
 .container {
   display: flex;
-  flex-direction: column;
   background-color: rgba(0, 0, 0, 0.05);
   padding: 1rem;
   border-radius: 1rem;
-  max-height: 1rem;
-  transition: 1s;
+  max-width: 6rem;
+  transition: max-width 1s;
 }
 
 .container:hover {
-  max-height: 100rem;
+  max-width: 100rem;
 }
 
 .dot {
@@ -22,13 +21,15 @@
 }
 
 .generation {
+  flex-shrink: 0;
+  margin: 0 1rem 0 0;
   padding: 0.1rem 0.2rem;
   cursor: pointer;
   user-select: none;
   word-spacing: -0.5rem;
   letter-spacing: -0.1rem;
   border-radius: 1rem;
-  transition: 1s;
+  transition: opacity 0.8s;
 }
 
 .generation:not(:first-child) {
