@@ -94,7 +94,7 @@ const useRandomPokemon = (generations) => {
 };
 
 function Type({ idx, selected, setSelected }) {
-  const thing = () => {
+  const toggleSelected = () => {
     let nextSelected = selected.slice();
     nextSelected[idx] = !nextSelected[idx];
     setSelected(nextSelected);
@@ -103,7 +103,7 @@ function Type({ idx, selected, setSelected }) {
   return (
     <div
       className={"type " + (selected[idx] ? "selected" : "")}
-      onClick={thing}
+      onClick={toggleSelected}
     >
       <img src={gallery[idx]}></img>
     </div>
