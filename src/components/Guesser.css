@@ -5,7 +5,7 @@
   grid-template-areas:
     "types poke-info"
     "types buttons";
-  width: 35%;
+  width: 40%;
   padding: 4rem;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 5rem;
@@ -15,12 +15,21 @@
   grid-area: types;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+  gap: 1rem 0rem;
+}
+
+.type {
+  width: 6rem;
 }
 
 .type > img {
-  width: 4.8rem;
+  width: 100%;
+  height: 100%;
   transition: scale 0.1s;
+}
+
+.type.selected {
+  box-shadow: 0 0rem 1.3rem 1rem rgba(255, 255, 255, 0.8);
 }
 
 .type > img:hover {

@@ -12,6 +12,27 @@ const gallery = Object.values(
   })
 );
 
+const types = [
+  "Bug",
+  "Dark",
+  "Dragon",
+  "Electric",
+  "Fairy",
+  "Fighting",
+  "Fire",
+  "Flying",
+  "Ghost",
+  "Grass",
+  "Ground",
+  "Ice",
+  "Normal",
+  "Poison",
+  "Psychic",
+  "Rock",
+  "Steel",
+  "Water",
+];
+
 const useRandomPokemon = (generations) => {
   const [pokemonData, setPokemonData] = useState(null);
   const [error, setError] = useState(null);
@@ -72,40 +93,33 @@ const useRandomPokemon = (generations) => {
   return { pokemonData, error, loading };
 };
 
-function Type({ idx, type }) {
+function Type({ idx, selected, setSelected }) {
+  const thing = () => {
+    let nextSelected = selected.slice();
+    nextSelected[idx] = !nextSelected[idx];
+    setSelected(nextSelected);
+    console.log(`pressed ${types[idx]}`);
+  };
   return (
-    <div className="type">
+    <div
+      className={"type " + (selected[idx] ? "selected" : "")}
+      onClick={thing}
+    >
       <img src={gallery[idx]}></img>
     </div>
   );
 }
 
-function TypeSelector() {
-  const types = [
-    "Bug",
-    "Dark",
-    "Dragon",
-    "Electric",
-    "Fairy",
-    "Fighting",
-    "Fire",
-    "Flying",
-    "Ghost",
-    "Grass",
-    "Ground",
-    "Ice",
-    "Normal",
-    "Poison",
-    "Psychic",
-    "Rock",
-    "Steel",
-    "Water",
-  ];
-
+function TypeSelector({ selected, setSelected }) {
   return (
     <div className="types">
-      {types.map((type, idx) => (
-        <Type idx={idx} type={type} key={idx} />
+      {types.map((_, idx) => (
+        <Type
+          idx={idx}
+          selected={selected}
+          setSelected={setSelected}
+          key={idx}
+        />
       ))}
     </div>
   );
@@ -122,18 +136,19 @@ function PokeInfo({ name, spriteURL }) {
 
 function Guesser({ generations }) {
   const { pokemonData, error, loading } = useRandomPokemon(generations);
+  const [selected, setSelected] = useState(Array(types.length).fill(false));
 
   if (error) return <p>A network error was encountered</p>;
   if (loading) return <p>Loading...</p>;
 
   const name = pokemonData.name;
   const spriteURL = pokemonData.sprites.other.showdown.front_default;
-  const types = pokemonData.types.map((x) => x.type.name);
-  console.log(types);
+  const correctTypes = pokemonData.types.map((x) => x.type.name);
+  console.log(correctTypes);
 
   return (
     <div className="guesser">
-      <TypeSelector />
+      <TypeSelector selected={selected} setSelected={setSelected} />
       <PokeInfo name={name} spriteURL={spriteURL} />
       <div className="buttons">
         <button className="guess-button">Guess</button>
