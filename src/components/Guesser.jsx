@@ -95,6 +95,9 @@ const useRandomPokemon = (generations) => {
 
 function Type({ idx, selected, setSelected }) {
   const toggleSelected = () => {
+    if (!selected[idx] && selected.reduce((res, a) => res + a, 0) == 2) {
+      return;
+    }
     let nextSelected = selected.slice();
     nextSelected[idx] = !nextSelected[idx];
     setSelected(nextSelected);

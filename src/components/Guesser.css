@@ -7,7 +7,7 @@
     "types buttons";
   width: 40%;
   padding: 4rem;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
   border-radius: 5rem;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .type.selected {
-  box-shadow: 0 0rem 1.3rem 1rem rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0rem 1.3rem 0.8rem rgba(255, 255, 255, 0.6);
 }
 
 .type > img:hover {
