@@ -6,6 +6,7 @@
   border-radius: 1rem;
   max-width: 6rem;
   transition: max-width 1s;
+  margin-left: 2rem;
 }
 
 .container:hover {
