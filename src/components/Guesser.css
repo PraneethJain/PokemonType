@@ -1,13 +1,18 @@
 .guesser {
-  display: flex;
-  width: 30%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 5fr 1fr;
+  grid-template-areas:
+    "types poke-info"
+    "types buttons";
+  width: 35%;
   padding: 4rem;
-  justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 5rem;
 }
 
 .types {
+  grid-area: types;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
@@ -19,10 +24,12 @@
 }
 
 .type > img:hover {
-    scale: 1.1;
+  scale: 1.1;
+  cursor: pointer;
 }
 
 .poke-info {
+  grid-area: poke-info;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -32,4 +39,29 @@
 
 .sprite {
   width: 15rem;
+}
+
+.buttons {
+  grid-area: buttons;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+}
+
+.guess-button {
+  border: none;
+  padding: 1rem;
+  font-family: pokefont;
+  font-size: 2rem;
+  background-color: rgba(78, 149, 215);
+  color: white;
+  border-radius: 1rem;
+  border: 0.4rem solid white;
+  box-shadow: 0 0 2rem rgba(255, 255, 255, 0.5);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.guess-button:hover {
+  transform: translateY(-0.2rem);
+  cursor: pointer;
 }

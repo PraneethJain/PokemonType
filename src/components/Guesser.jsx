@@ -135,6 +135,9 @@ function Guesser({ generations }) {
     <div className="guesser">
       <TypeSelector />
       <PokeInfo name={name} spriteURL={spriteURL} />
+      <div className="buttons">
+        <button className="guess-button">Guess</button>
+      </div>
     </div>
   );
 }
