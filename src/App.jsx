@@ -13,6 +13,7 @@ function App() {
           generations={generations}
           setGenerations={setGenerations}
         ></GenerationSelector>
+        <div className="text-info">Guess the Pokémon's types</div>
       </div>
       <div className="middle">
         <Guesser generations={generations} />

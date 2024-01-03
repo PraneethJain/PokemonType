@@ -5,6 +5,13 @@ import "./Guesser.css";
 const range = (start, end) =>
   Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
+const gallery = Object.values(
+  import.meta.glob("@assets/types/*.{png,jpg,jpeg,PNG,JPEG}", {
+    eager: true,
+    as: "url",
+  })
+);
+
 const useRandomPokemon = (generations) => {
   const [pokemonData, setPokemonData] = useState(null);
   const [error, setError] = useState(null);
@@ -65,6 +72,54 @@ const useRandomPokemon = (generations) => {
   return { pokemonData, error, loading };
 };
 
+function Type({ idx, type }) {
+  return (
+    <div className="type">
+      <img src={gallery[idx]}></img>
+    </div>
+  );
+}
+
+function TypeSelector() {
+  const types = [
+    "Bug",
+    "Dark",
+    "Dragon",
+    "Electric",
+    "Fairy",
+    "Fighting",
+    "Fire",
+    "Flying",
+    "Ghost",
+    "Grass",
+    "Ground",
+    "Ice",
+    "Normal",
+    "Poison",
+    "Psychic",
+    "Rock",
+    "Steel",
+    "Water",
+  ];
+
+  return (
+    <div className="types">
+      {types.map((type, idx) => (
+        <Type idx={idx} type={type} key={idx} />
+      ))}
+    </div>
+  );
+}
+
+function PokeInfo({ name, spriteURL }) {
+  return (
+    <div className="poke-info">
+      <img src={spriteURL} alt={name} className="sprite" />
+      {name}
+    </div>
+  );
+}
+
 function Guesser({ generations }) {
   const { pokemonData, error, loading } = useRandomPokemon(generations);
 
@@ -73,12 +128,14 @@ function Guesser({ generations }) {
 
   const name = pokemonData.name;
   const spriteURL = pokemonData.sprites.other.showdown.front_default;
+  const types = pokemonData.types.map((x) => x.type.name);
+  console.log(types);
 
   return (
-    <>
-      <img src={spriteURL} alt={name} className="sprite" />
-      {name}
-    </>
+    <div className="guesser">
+      <TypeSelector />
+      <PokeInfo name={name} spriteURL={spriteURL} />
+    </div>
   );
 }
 

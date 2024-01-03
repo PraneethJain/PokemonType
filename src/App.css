@@ -11,6 +11,15 @@
 
 .top {
   justify-self: flex-start;
+  width: 100%;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text-info {
+  margin-right: 4rem;
 }
 
 .middle {

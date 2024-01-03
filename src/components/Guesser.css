@@ -1,3 +1,35 @@
+.guesser {
+  display: flex;
+  width: 30%;
+  padding: 4rem;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5rem;
+}
+
+.types {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.type > img {
+  width: 4.8rem;
+  transition: scale 0.1s;
+}
+
+.type > img:hover {
+    scale: 1.1;
+}
+
+.poke-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+}
+
 .sprite {
-    width: 15rem;
+  width: 15rem;
 }
