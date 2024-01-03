@@ -15,7 +15,7 @@ function App() {
         ></GenerationSelector>
       </div>
       <div className="middle">
-        <Guesser />
+        <Guesser generations={generations} />
       </div>
       <div className="bottom">bottom</div>
     </>
