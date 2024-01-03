@@ -1,6 +1,7 @@
 .container {
   display: flex;
   background-color: rgba(0, 0, 0, 0.05);
+  max-height: 1.5rem;
   padding: 1rem;
   border-radius: 1rem;
   max-width: 6rem;
