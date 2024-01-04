@@ -40,17 +40,3 @@
   padding: 0.4rem;
   border-radius: 50%;
 }
-
-.bottom .right {
-  user-select: none;
-  cursor: pointer;
-  text-align: center;
-  padding: 0.4rem;
-  margin-bottom: 0.4rem;
-  font-size: 1.4rem;
-  width: 2.2rem;
-  height: 2.2rem;
-  color: black;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-}
