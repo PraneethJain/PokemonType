@@ -44,6 +44,8 @@ const generatePokedexNum = (generations) => {
 };
 
 function App() {
+  document.getElementById("bg").volume = 0.1;
+
   const [generations, setGenerations] = useState(Array(8).fill(true));
 
   const [pokedexNum, setPokedexNum] = useState(generatePokedexNum(generations));
