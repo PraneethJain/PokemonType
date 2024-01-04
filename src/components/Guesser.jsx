@@ -93,6 +93,8 @@ function PokeInfo({ name, spriteURL }) {
   );
 }
 
+const correctGuessSound = new Audio("/correct_guess.mp3");
+
 function Guesser({ pokedexNum, setToggle }) {
   const { pokemonData, error, loading } = useRandomPokemon(pokedexNum);
   const [selected, setSelected] = useState(Array(types.length).fill(false));
@@ -116,6 +118,11 @@ function Guesser({ pokedexNum, setToggle }) {
       correctTypes.every((type) => selectedTypes.includes(type)) &&
       selectedTypes.every((type) => correctTypes.includes(type))
     ) {
+      // stop the previous correct sound
+      correctGuessSound.pause();
+      correctGuessSound.currentTime = 0;
+      // play the next correct sound
+      correctGuessSound.play();
       selected.fill(false);
       setToggle((toggle) => !toggle);
     } else {
