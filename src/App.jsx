@@ -1,6 +1,7 @@
 import { GenerationSelector } from "./components/GenerationSelector";
 import { Guesser } from "./components/Guesser";
 import { useEffect, useState } from "react";
+import githubImage from "./assets/github.png";
 import "./App.css";
 
 const range = (start, end) =>
@@ -67,7 +68,14 @@ function App() {
       <div className="middle">
         <Guesser pokedexNum={pokedexNum} setToggle={setToggle} />
       </div>
-      <div className="bottom">bottom</div>
+      <div className="bottom">
+        <div className="left">
+          <a href="https://www.google.com">
+            <img src={githubImage} alt="github" />
+          </a>
+        </div>
+        <div className="right"></div>
+      </div>
     </>
   );
 }

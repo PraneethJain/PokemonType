@@ -29,6 +29,14 @@
 
 .bottom {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: end;
+  padding: 0 2rem 0.5rem 2rem;
+}
+
+.bottom img {
+  width: 2rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 0.4rem;
+  border-radius: 50%;
 }
