@@ -70,7 +70,7 @@ function App() {
       </div>
       <div className="bottom">
         <div className="left">
-          <a href="https://www.google.com">
+          <a href="https://github.com/PraneethJain/PokemonType">
             <img src={githubImage} alt="github" />
           </a>
         </div>
