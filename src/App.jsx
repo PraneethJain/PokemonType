@@ -74,7 +74,7 @@ function App() {
             <img src={githubImage} alt="github" />
           </a>
         </div>
-        <div className="right"></div>
+        <div className="right">?</div>
       </div>
     </>
   );
