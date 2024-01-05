@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import PropTypes from "prop-types";
 import { useState } from "react";
 import "./Guesser.css";
 
@@ -78,6 +78,12 @@ function Type({ idx, selected, setSelected }) {
   );
 }
 
+Type.propTypes = {
+  idx: PropTypes.number.isRequired,
+  selected: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  setSelected: PropTypes.func.isRequired,
+};
+
 function TypeSelector({ selected, setSelected }) {
   return (
     <div className="types">
@@ -93,6 +99,11 @@ function TypeSelector({ selected, setSelected }) {
   );
 }
 
+TypeSelector.propTypes = {
+  selected: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  setSelected: PropTypes.func.isRequired,
+};
+
 function PokeInfo({ name, spriteURL }) {
   return (
     <div className="poke-info">
@@ -101,6 +112,11 @@ function PokeInfo({ name, spriteURL }) {
     </div>
   );
 }
+
+PokeInfo.propTypes = {
+  name: PropTypes.string.isRequired,
+  spriteURL: PropTypes.string.isRequired,
+};
 
 function Guesser({ pokedexNum, setToggle }) {
   const { pokemonData, error, loading } = useRandomPokemon(pokedexNum);
@@ -147,5 +163,10 @@ function Guesser({ pokedexNum, setToggle }) {
     </div>
   );
 }
+
+Guesser.propTypes = {
+  pokedexNum: PropTypes.number.isRequired,
+  setToggle: PropTypes.func,
+};
 
 export { Guesser };

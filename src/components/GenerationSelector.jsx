@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import PropTypes from "prop-types";
 import "./GenerationSelector.css";
 
 function Generation({ filled, idx }) {
@@ -12,6 +12,15 @@ function Generation({ filled, idx }) {
     </>
   );
 }
+
+Generation.propTypes = {
+  filled: PropTypes.bool,
+  idx: PropTypes.number.isRequired,
+};
+
+Generation.defaultProps = {
+  filled: false,
+};
 
 function GenerationSelector({ generations, setGenerations }) {
   let updateGenerations = (idx) => {
@@ -34,5 +43,10 @@ function GenerationSelector({ generations, setGenerations }) {
     </div>
   );
 }
+
+GenerationSelector.propTypes = {
+  generations: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  setGenerations: PropTypes.func.isRequired,
+};
 
 export { GenerationSelector };
