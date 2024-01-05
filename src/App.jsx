@@ -45,7 +45,6 @@ const generatePokedexNum = (generations) => {
 };
 
 function App() {
-  document.getElementById("bg").volume = 0.1;
 
   const [generations, setGenerations] = useState(Array(8).fill(true));
 
@@ -57,7 +56,7 @@ function App() {
   }, [toggle, generations]);
 
   return (
-    <>
+    <div className="app">
       <div className="top">
         <GenerationSelector
           generations={generations}
@@ -76,7 +75,7 @@ function App() {
         </div>
         <div className="right"></div>
       </div>
-    </>
+    </div>
   );
 }
 
