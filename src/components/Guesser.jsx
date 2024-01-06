@@ -118,9 +118,8 @@ PokeInfo.propTypes = {
   spriteURL: PropTypes.string.isRequired,
 };
 
-function Guesser({ pokedexNum, setToggle }) {
+function Guesser({ pokedexNum, setToggle, selected, setSelected }) {
   const { pokemonData, error, loading } = useRandomPokemon(pokedexNum);
-  const [selected, setSelected] = useState(Array(types.length).fill(false));
 
   if (error) return <p>A network error was encountered</p>;
   if (loading) return <p>Loading...</p>;
@@ -143,7 +142,6 @@ function Guesser({ pokedexNum, setToggle }) {
     ) {
       correctGuessSound.currentTime = 0;
       correctGuessSound.play();
-      selected.fill(false);
       setToggle((toggle) => !toggle);
     } else {
       wrongGuessSound.currentTime = 0.6;
@@ -167,6 +165,8 @@ function Guesser({ pokedexNum, setToggle }) {
 Guesser.propTypes = {
   pokedexNum: PropTypes.number.isRequired,
   setToggle: PropTypes.func,
+  selected: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  setSelected: PropTypes.func,
 };
 
 export { Guesser };

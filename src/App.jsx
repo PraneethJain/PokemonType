@@ -45,14 +45,15 @@ const generatePokedexNum = (generations) => {
 };
 
 function App() {
-
   const [generations, setGenerations] = useState(Array(8).fill(true));
+  const [selected, setSelected] = useState(Array(18).fill(false));
 
   const [pokedexNum, setPokedexNum] = useState(generatePokedexNum(generations));
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     setPokedexNum(generatePokedexNum(generations));
+    setSelected(Array(18).fill(false));
   }, [toggle, generations]);
 
   return (
@@ -65,7 +66,12 @@ function App() {
         <div className="text-info">Guess the Pokémon&apos;s types</div>
       </div>
       <div className="middle">
-        <Guesser pokedexNum={pokedexNum} setToggle={setToggle} />
+        <Guesser
+          pokedexNum={pokedexNum}
+          setToggle={setToggle}
+          selected={selected}
+          setSelected={setSelected}
+        />
       </div>
       <div className="bottom">
         <div className="left">
