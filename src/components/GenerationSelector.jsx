@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import "./GenerationSelector.css";
+import { getValidPokemon } from "../validPokemon";
 
 function Generation({ filled, idx }) {
   return (
@@ -22,11 +23,24 @@ Generation.defaultProps = {
   filled: false,
 };
 
-function GenerationSelector({ generations, setGenerations }) {
+function GenerationSelector({
+  generations,
+  setGenerations,
+  pokedexNum,
+  setPokedexNum,
+  setSelected,
+}) {
   let updateGenerations = (idx) => {
     let nextGenerations = generations.slice();
     nextGenerations[idx] = !nextGenerations[idx];
     setGenerations(nextGenerations);
+    const validPokemon = getValidPokemon(nextGenerations);
+    if (validPokemon.includes(pokedexNum)) return;
+
+    setSelected(Array(18).fill(false));
+    setPokedexNum(
+      validPokemon[Math.floor(Math.random() * validPokemon.length)]
+    );
   };
 
   return (
@@ -47,6 +61,9 @@ function GenerationSelector({ generations, setGenerations }) {
 GenerationSelector.propTypes = {
   generations: PropTypes.arrayOf(PropTypes.bool).isRequired,
   setGenerations: PropTypes.func.isRequired,
+  pokedexNum: PropTypes.number,
+  setPokedexNum: PropTypes.func,
+  setSelected: PropTypes.func,
 };
 
 export { GenerationSelector };

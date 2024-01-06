@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import "./Guesser.css";
+import { getRandomPokedexNum } from "../validPokemon";
 
 const correctGuessSound = new Audio("/correct_guess.mp3");
 const wrongGuessSound = new Audio("/wrong_guess.mp3");
@@ -118,7 +119,13 @@ PokeInfo.propTypes = {
   spriteURL: PropTypes.string.isRequired,
 };
 
-function Guesser({ pokedexNum, setToggle, selected, setSelected }) {
+function Guesser({
+  pokedexNum,
+  setPokedexNum,
+  selected,
+  setSelected,
+  generations,
+}) {
   const { pokemonData, error, loading } = useRandomPokemon(pokedexNum);
 
   if (error) return <p>A network error was encountered</p>;
@@ -142,7 +149,8 @@ function Guesser({ pokedexNum, setToggle, selected, setSelected }) {
     ) {
       correctGuessSound.currentTime = 0;
       correctGuessSound.play();
-      setToggle((toggle) => !toggle);
+      setSelected(Array(18).fill(false));
+      setPokedexNum(getRandomPokedexNum(generations));
     } else {
       wrongGuessSound.currentTime = 0.6;
       wrongGuessSound.play();
@@ -164,9 +172,11 @@ function Guesser({ pokedexNum, setToggle, selected, setSelected }) {
 
 Guesser.propTypes = {
   pokedexNum: PropTypes.number.isRequired,
+  setPokedexNum: PropTypes.func,
   setToggle: PropTypes.func,
   selected: PropTypes.arrayOf(PropTypes.bool).isRequired,
-  setSelected: PropTypes.func,
+  setSelected: PropTypes.func.isRequired,
+  generations: PropTypes.arrayOf(PropTypes.bool).isRequired,
 };
 
 export { Guesser };

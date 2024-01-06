@@ -1,60 +1,16 @@
 import { GenerationSelector } from "./components/GenerationSelector";
 import { Guesser } from "./components/Guesser";
-import { useEffect, useState } from "react";
+import { getRandomPokedexNum } from "./validPokemon";
+import { useState } from "react";
 import githubImage from "./assets/github.png";
 import "./App.css";
-
-const range = (start, end) =>
-  Array.from({ length: end - start + 1 }, (_, i) => start + i);
-
-const generatePokedexNum = (generations) => {
-  let validPokemon = [];
-  generations.forEach((val, idx) => {
-    if (val) {
-      switch (idx + 1) {
-        case 1:
-          validPokemon.push(...range(1, 151));
-          break;
-        case 2:
-          validPokemon.push(...range(152, 251));
-          break;
-        case 3:
-          validPokemon.push(...range(252, 386));
-          break;
-        case 4:
-          validPokemon.push(...range(387, 493));
-          break;
-        case 5:
-          validPokemon.push(...range(494, 649));
-          break;
-        case 6:
-          validPokemon.push(...range(650, 721));
-          break;
-        case 7:
-          validPokemon.push(...range(722, 809));
-          break;
-        case 8:
-          validPokemon.push(...range(810, 905));
-          break;
-        default:
-          throw new Error("invalid generation number");
-      }
-    }
-  });
-  return validPokemon[Math.floor(Math.random() * validPokemon.length)];
-};
 
 function App() {
   const [generations, setGenerations] = useState(Array(8).fill(true));
   const [selected, setSelected] = useState(Array(18).fill(false));
-
-  const [pokedexNum, setPokedexNum] = useState(generatePokedexNum(generations));
-  const [toggle, setToggle] = useState(false);
-
-  useEffect(() => {
-    setPokedexNum(generatePokedexNum(generations));
-    setSelected(Array(18).fill(false));
-  }, [toggle, generations]);
+  const [pokedexNum, setPokedexNum] = useState(
+    getRandomPokedexNum(generations)
+  );
 
   return (
     <div className="app">
@@ -62,15 +18,19 @@ function App() {
         <GenerationSelector
           generations={generations}
           setGenerations={setGenerations}
+          pokedexNum={pokedexNum}
+          setPokedexNum={setPokedexNum}
+          setSelected={setSelected}
         ></GenerationSelector>
         <div className="text-info">Guess the Pokémon&apos;s types</div>
       </div>
       <div className="middle">
         <Guesser
           pokedexNum={pokedexNum}
-          setToggle={setToggle}
+          setPokedexNum={setPokedexNum}
           selected={selected}
           setSelected={setSelected}
+          generations={generations}
         />
       </div>
       <div className="bottom">
