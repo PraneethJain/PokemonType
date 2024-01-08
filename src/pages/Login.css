@@ -1,0 +1,78 @@
+.loginScreen {
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: pokefont;
+  text-align: center;
+
+  background-image: url("../assets/loginbg.jpg");
+  background-size: cover;
+  box-shadow: 0 0 9rem 4rem black inset;
+}
+
+.loginScreen h1 {
+  margin-bottom: 2rem;
+}
+
+.loginScreen label {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+}
+
+.loginScreen button {
+  border: none;
+  padding: 0.6rem;
+  margin-top: 2rem;
+  font-family: pokefont;
+  font-size: 2rem;
+  background-color: rgb(78, 148, 81);
+  color: white;
+  border-radius: 1rem;
+  border: 0.4rem solid white;
+  box-shadow: 0 0 2rem rgba(255, 255, 255, 0.5);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.loginScreen button:hover {
+  transform: translateY(-0.2rem);
+  cursor: pointer;
+}
+
+.loginScreen input {
+  all: unset;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 0.5rem 1rem;
+  border-radius: 0.4rem;
+  width: 40%;
+}
+
+.error {
+  margin-top: 3rem;
+  background-color: rgb(240, 68, 68);
+  padding: 1rem;
+  border: 0.3rem solid white;
+  border-radius: 1rem;
+}
+
+.other {
+  margin-top: 1rem;
+}
+
+.link {
+  color: white;
+  margin-left: 1rem;
+}
+
+.link:hover {
+  color: rgb(119, 74, 226);
+}
