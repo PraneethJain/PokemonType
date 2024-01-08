@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useSignup } from "../hooks/useSignup";
 
 function Signup() {
@@ -13,28 +14,33 @@ function Signup() {
   };
 
   return (
-    <form className="signup" onSubmit={handleSubmit}>
-      <h3>Sign up</h3>
-
-      <label>Email:</label>
-      <input
-        type="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
-
-      <label>Password:</label>
-      <input
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
-
-      <button type="submit" disabled={loading}>
-        Sign up
-      </button>
-      {error && <div className="error">{error}</div>}
-    </form>
+    <div className="Screen">
+      <form className="Form" onSubmit={handleSubmit}>
+        <h1>Sign up</h1>
+        <label>Email?</label>
+        <input
+          type="email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+        <label>Password?</label>
+        <input
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <button type="submit" disabled={loading}>
+          Submit
+        </button>
+        {error && <div className="error">{error}</div>}
+        <div className="other">
+          Already have an account?
+          <Link to="/login" className="link">
+            Log in
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 }
 

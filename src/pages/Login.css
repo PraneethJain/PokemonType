@@ -1,4 +1,4 @@
-.loginScreen {
+.Screen {
   min-width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -12,16 +12,16 @@
   box-shadow: 0 0 9rem 4rem black inset;
 }
 
-.loginScreen h1 {
+.Screen h1 {
   margin-bottom: 2rem;
 }
 
-.loginScreen label {
+.Screen label {
   margin-top: 2rem;
   font-size: 1.5rem;
 }
 
-.loginForm {
+.Form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,7 +29,7 @@
   width: 70%;
 }
 
-.loginScreen button {
+.Screen button {
   border: none;
   padding: 0.6rem;
   margin-top: 2rem;
@@ -43,12 +43,12 @@
   transition: transform 0.1s, box-shadow 0.1s;
 }
 
-.loginScreen button:hover {
+.Screen button:hover {
   transform: translateY(-0.2rem);
   cursor: pointer;
 }
 
-.loginScreen input {
+.Screen input {
   all: unset;
   background-color: rgba(0, 0, 0, 0.4);
   padding: 0.5rem 1rem;
