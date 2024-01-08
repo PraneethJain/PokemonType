@@ -5,10 +5,10 @@ import {
 } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 
-import App from "./App";
-import Signup from "./Signup";
-import Login from "./Login";
-import ErrorPage from "./ErrorPage";
+import App from "./pages/App";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import ErrorPage from "./pages/ErrorPage";
 
 function Router() {
   const { user } = useAuthContext();

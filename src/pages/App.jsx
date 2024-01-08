@@ -1,10 +1,10 @@
-import { GenerationSelector } from "./components/GenerationSelector";
-import { Guesser } from "./components/Guesser";
-import { getRandomPokedexNum } from "./validPokemon";
+import { GenerationSelector } from "../components/GenerationSelector";
+import { Guesser } from "../components/Guesser";
+import { getRandomPokedexNum } from "../utils/validPokemon";
 import { useState } from "react";
-import { useLogout } from "./hooks/useLogout";
-import { useAuthContext } from "./hooks/useAuthContext";
-import githubImage from "./assets/github.png";
+import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
+import githubImage from "../assets/github.png";
 import "./App.css";
 
 function App() {

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import "./GenerationSelector.css";
-import { getValidPokemon } from "../validPokemon";
+import { getValidPokemon } from "../utils/validPokemon";
 
 function Generation({ filled, idx }) {
   return (

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import "./Guesser.css";
-import { getRandomPokedexNum } from "../validPokemon";
+import { getRandomPokedexNum } from "../utils/validPokemon";
 
 const correctGuessSound = new Audio("/correct_guess.mp3");
 const wrongGuessSound = new Audio("/wrong_guess.mp3");
