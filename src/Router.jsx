@@ -1,23 +1,31 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
+import { useAuthContext } from "./hooks/useAuthContext";
+
 import App from "./App";
 import Signup from "./Signup";
-import ErrorPage from "./ErrorPage";
 import Login from "./Login";
+import ErrorPage from "./ErrorPage";
 
 function Router() {
+  const { user } = useAuthContext();
+
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <App />,
+      element: user ? <App /> : <Navigate to="/login" />,
       errorElement: <ErrorPage />,
     },
     {
       path: "signup",
-      element: <Signup />,
+      element: user ? <Navigate to="/" /> : <Signup />,
     },
     {
       path: "login",
-      element: <Login />,
+      element: user ? <Navigate to="/" /> : <Login />,
     },
   ]);
 

@@ -3,6 +3,7 @@ import { Guesser } from "./components/Guesser";
 import { getRandomPokedexNum } from "./validPokemon";
 import { useState } from "react";
 import { useLogout } from "./hooks/useLogout";
+import { useAuthContext } from "./hooks/useAuthContext";
 import githubImage from "./assets/github.png";
 import "./App.css";
 
@@ -12,6 +13,7 @@ function App() {
   const [pokedexNum, setPokedexNum] = useState(
     getRandomPokedexNum(generations)
   );
+  const { user } = useAuthContext();
   const { logout } = useLogout();
 
   const logoutHandler = () => {
@@ -46,6 +48,7 @@ function App() {
           </a>
         </div>
         <div className="right">
+          <span>{user.email}</span>
           <button onClick={logoutHandler}>Log Out</button>
         </div>
       </div>
