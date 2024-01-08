@@ -2,6 +2,7 @@ import { GenerationSelector } from "./components/GenerationSelector";
 import { Guesser } from "./components/Guesser";
 import { getRandomPokedexNum } from "./validPokemon";
 import { useState } from "react";
+import { useLogout } from "./hooks/useLogout";
 import githubImage from "./assets/github.png";
 import "./App.css";
 
@@ -11,6 +12,11 @@ function App() {
   const [pokedexNum, setPokedexNum] = useState(
     getRandomPokedexNum(generations)
   );
+  const { logout } = useLogout();
+
+  const logoutHandler = () => {
+    logout();
+  };
 
   return (
     <div className="app">
@@ -39,7 +45,9 @@ function App() {
             <img src={githubImage} alt="github" />
           </a>
         </div>
-        <div className="right"></div>
+        <div className="right">
+          <button onClick={logoutHandler}>Log Out</button>
+        </div>
       </div>
     </div>
   );
