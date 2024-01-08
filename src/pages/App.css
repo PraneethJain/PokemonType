@@ -40,3 +40,23 @@
   padding: 0.4rem;
   border-radius: 50%;
 }
+
+.bottom .right {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.logoutbutton {
+  background-color: transparent;
+  border: none;
+  font-family: pokefont;
+  color: rgb(226, 255, 255);
+  margin-left: 2rem;
+  padding: 0.4rem;
+}
+
+.logoutbutton:hover {
+  cursor: pointer;
+  color: rgb(154, 230, 237);;
+}

@@ -49,7 +49,7 @@ function App() {
         </div>
         <div className="right">
           <span>{user.email}</span>
-          <button onClick={logoutHandler}>Log Out</button>
+          <button onClick={logoutHandler} className="logoutbutton">Log Out</button>
         </div>
       </div>
     </div>
