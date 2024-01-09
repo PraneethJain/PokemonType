@@ -24,6 +24,7 @@ function Home() {
           <Link to="/casual">Casual</Link>
           <Link to="/ranked">Ranked</Link>
           <Link onClick={logoutHandler}>Logout</Link>
+          {user.email}
         </div>
       )}
 
