@@ -47,16 +47,13 @@
   padding: 1rem;
 }
 
-.logoutbutton {
-  background-color: transparent;
-  border: none;
+.homelink {
   font-family: pokefont;
   color: rgb(226, 255, 255);
-  margin-left: 2rem;
   padding: 0.4rem;
 }
 
-.logoutbutton:hover {
+.homelink:hover {
   cursor: pointer;
   color: rgb(154, 230, 237);;
 }

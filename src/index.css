@@ -3,6 +3,21 @@
   src: url(./assets/PokemonGb-RAeo.ttf) format("truetype");
 }
 
+@font-face {
+  font-family: "Pokemon Hollow";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Pokemon Hollow"),
+    url("./assets/Pokemon Hollow.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Pokemon Solid";
+  font-style: normal;
+  font-weight: normal;
+  src: local("Pokemon Solid"), url("./assets/Pokemon Solid.woff") format("woff");
+}
+
 * {
   margin: 0;
   padding: 0;

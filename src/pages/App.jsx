@@ -1,9 +1,8 @@
 import { GenerationSelector } from "../components/GenerationSelector";
 import { Guesser } from "../components/Guesser";
 import { getRandomPokedexNum } from "../utils/validPokemon";
-import { useState } from "react";
-import { useLogout } from "../hooks/useLogout";
-import { useAuthContext } from "../hooks/useAuthContext";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import githubImage from "../assets/github.png";
 import "./App.css";
 
@@ -13,12 +12,16 @@ function App() {
   const [pokedexNum, setPokedexNum] = useState(
     getRandomPokedexNum(generations)
   );
-  const { user } = useAuthContext();
-  const { logout } = useLogout();
 
-  const logoutHandler = () => {
-    logout();
-  };
+  useEffect(() => {
+    const bgMusic = new Audio("/bg.mp3");
+    bgMusic.volume = 0.1;
+    bgMusic.play();
+
+    return () => {
+      bgMusic.src = "";
+    };
+  }, []);
 
   return (
     <div className="app">
@@ -48,8 +51,9 @@ function App() {
           </a>
         </div>
         <div className="right">
-          <span>{user.email}</span>
-          <button onClick={logoutHandler} className="logoutbutton">Log Out</button>
+          <Link to="/" className="homelink">
+            Home
+          </Link>
         </div>
       </div>
     </div>

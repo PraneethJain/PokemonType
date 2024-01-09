@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 
+import Home from "./pages/Home";
 import App from "./pages/App";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -16,8 +17,16 @@ function Router() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: user ? <App /> : <Navigate to="/login" />,
+      element: <Home />,
       errorElement: <ErrorPage />,
+    },
+    {
+      path: "casual",
+      element: user ? <App /> : <Navigate to="/" />,
+    },
+    {
+      path: "ranked",
+      element: user ? <App /> : <Navigate to="/" />,
     },
     {
       path: "signup",
