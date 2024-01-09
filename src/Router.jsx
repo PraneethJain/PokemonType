@@ -6,7 +6,8 @@ import {
 import { useAuthContext } from "./hooks/useAuthContext";
 
 import Home from "./pages/Home";
-import App from "./pages/App";
+import Casual from "./pages/Casual";
+import Ranked from "./pages/Ranked";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ErrorPage from "./pages/ErrorPage";
@@ -22,11 +23,11 @@ function Router() {
     },
     {
       path: "casual",
-      element: user ? <App /> : <Navigate to="/" />,
+      element: user ? <Casual /> : <Navigate to="/" />,
     },
     {
       path: "ranked",
-      element: user ? <App /> : <Navigate to="/" />,
+      element: user ? <Ranked /> : <Navigate to="/" />,
     },
     {
       path: "signup",

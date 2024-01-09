@@ -4,7 +4,7 @@ import { getRandomPokedexNum } from "../utils/validPokemon";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import githubImage from "../assets/github.png";
-import "./App.css";
+import "./Casual.css";
 
 function App() {
   const [generations, setGenerations] = useState(Array(8).fill(true));
