@@ -10,3 +10,4 @@ View live at: https://pokemon-type-five.vercel.app/
 - https://pokeapi.co/
 - https://play.pokemonshowdown.com/
 - https://www.flaticon.com/
+- https://www.textstudio.com/
