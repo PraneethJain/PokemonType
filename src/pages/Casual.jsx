@@ -43,6 +43,7 @@ function App() {
           selected={selected}
           setSelected={setSelected}
           generations={generations}
+          skippable={true}
         />
       </div>
       <div className="bottom">
