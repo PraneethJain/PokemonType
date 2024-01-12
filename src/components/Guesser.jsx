@@ -17,24 +17,24 @@ const gallery = Object.values(
 );
 
 const types = [
-  "Bug",
-  "Dark",
-  "Dragon",
-  "Electric",
-  "Fairy",
-  "Fighting",
-  "Fire",
-  "Flying",
-  "Ghost",
-  "Grass",
-  "Ground",
-  "Ice",
-  "Normal",
-  "Poison",
-  "Psychic",
-  "Rock",
-  "Steel",
-  "Water",
+  "bug",
+  "dark",
+  "dragon",
+  "electric",
+  "fairy",
+  "fighting",
+  "fire",
+  "flying",
+  "ghost",
+  "grass",
+  "ground",
+  "ice",
+  "normal",
+  "poison",
+  "psychic",
+  "rock",
+  "steel",
+  "water",
 ];
 
 const useRandomPokemon = (pokedexNum) => {
@@ -119,29 +119,20 @@ PokeInfo.propTypes = {
   spriteURL: PropTypes.string.isRequired,
 };
 
-function Guesser({
-  pokedexNum,
-  setPokedexNum,
+function Buttons({
+  correctTypes,
   selected,
   setSelected,
+  setPokedexNum,
   generations,
+  skippable,
 }) {
-  const { pokemonData, error, loading } = useRandomPokemon(pokedexNum);
-
-  if (error) return <p>A network error was encountered</p>;
-  if (loading) return <p>Loading...</p>;
-
-  const name = pokemonData.name;
-  const spriteURL = pokemonData.sprites.other.showdown.front_default;
-  const correctTypes = pokemonData.types.map((x) => x.type.name);
+  const [skipped, setSkipped] = useState(false);
 
   const check = () => {
     const selectedTypes = types
       .filter((_, idx) => selected[idx])
       .map((type) => type.toLowerCase());
-
-    console.log(selectedTypes);
-    console.log(correctTypes);
 
     if (
       correctTypes.every((type) => selectedTypes.includes(type)) &&
@@ -151,21 +142,102 @@ function Guesser({
       correctGuessSound.play();
       setSelected(Array(18).fill(false));
       setPokedexNum(getRandomPokedexNum(generations));
+      setSkipped(false);
     } else {
       wrongGuessSound.currentTime = 0.6;
       wrongGuessSound.play();
     }
   };
 
+  const skip = () => {
+    setSkipped(true);
+    let newSelected = Array(18).fill(false);
+    for (let i = 0; i < newSelected.length; ++i) {
+      if (correctTypes.includes(types[i])) {
+        newSelected[i] = true;
+      }
+      selectSound.currentTime = 0.08;
+      selectSound.play();
+    }
+    setSelected(newSelected);
+  };
+
+  const next = () => {
+    selectSound.currentTime = 0.08;
+    selectSound.play();
+    setSelected(Array(18).fill(false));
+    setPokedexNum(getRandomPokedexNum(generations));
+    setSkipped(false);
+  };
+
+  let buttons;
+  if (skippable) {
+    if (skipped) {
+      buttons = (
+        <button className="next-button" onClick={next}>
+          Next
+        </button>
+      );
+    } else {
+      buttons = (
+        <>
+          <button className="guess-button" onClick={check}>
+            Guess
+          </button>
+          <button className="skip-button" onClick={skip}>
+            Give Up
+          </button>
+        </>
+      );
+    }
+  } else {
+    buttons = (
+      <button className="guess-button" onClick={check}>
+        Guess
+      </button>
+    );
+  }
+
+  return <div className="buttons">{buttons}</div>;
+}
+
+Buttons.propTypes = {
+  correctTypes: PropTypes.arrayOf(PropTypes.bool),
+  selected: PropTypes.arrayOf(PropTypes.bool),
+  setSelected: PropTypes.func,
+  setPokedexNum: PropTypes.func,
+  generations: PropTypes.arrayOf(PropTypes.bool),
+  skippable: PropTypes.bool,
+};
+
+function Guesser({
+  pokedexNum,
+  setPokedexNum,
+  selected,
+  setSelected,
+  generations,
+  skippable,
+}) {
+  const { pokemonData, error, loading } = useRandomPokemon(pokedexNum);
+
+  if (error) return <p>A network error was encountered</p>;
+  if (loading) return <p>Loading...</p>;
+
+  const name = pokemonData.name;
+  const spriteURL = pokemonData.sprites.other.showdown.front_default;
+
   return (
     <div className="guesser">
       <TypeSelector selected={selected} setSelected={setSelected} />
       <PokeInfo name={name} spriteURL={spriteURL} />
-      <div className="buttons">
-        <button className="guess-button" onClick={check}>
-          Guess
-        </button>
-      </div>
+      <Buttons
+        correctTypes={pokemonData.types.map((x) => x.type.name)}
+        selected={selected}
+        setSelected={setSelected}
+        setPokedexNum={setPokedexNum}
+        generations={generations}
+        skippable={skippable}
+      />
     </div>
   );
 }
@@ -177,6 +249,7 @@ Guesser.propTypes = {
   selected: PropTypes.arrayOf(PropTypes.bool).isRequired,
   setSelected: PropTypes.func.isRequired,
   generations: PropTypes.arrayOf(PropTypes.bool).isRequired,
+  skippable: PropTypes.bool.isRequired,
 };
 
 export { Guesser };
