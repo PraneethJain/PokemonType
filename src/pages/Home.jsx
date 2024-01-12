@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useLogout } from "../hooks/useLogout";
+import titleImage from "../assets/title.png";
 import "./Home.css";
 
 function Home() {
@@ -15,7 +16,7 @@ function Home() {
   return (
     <div className="homeScreen">
       <div className="top">
-        <h1>PokémonType!</h1>
+        <img src={titleImage} alt="PokemonType" />
         <h2>Guess the Pokemon&apos;s type(s)</h2>
       </div>
 
