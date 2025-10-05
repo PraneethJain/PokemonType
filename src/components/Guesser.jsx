@@ -131,6 +131,7 @@ function Buttons({
       setSelected(Array(18).fill(false));
       setPokedexNum(getRandomPokedexNum(generations));
       setSkipped(false);
+      setSpriteLoaded(false);
     } else {
       wrongGuessSound.currentTime = 0.6;
       wrongGuessSound.play();
