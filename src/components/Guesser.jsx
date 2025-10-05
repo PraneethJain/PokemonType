@@ -86,11 +86,17 @@ TypeSelector.propTypes = {
   setSelected: PropTypes.func.isRequired,
 };
 
-function PokeInfo({ name, spriteURL }) {
+function PokeInfo({ name, spriteURL, spriteLoaded, setSpriteLoaded }) {
   return (
     <div className="poke-info">
-      <img src={spriteURL} alt={name} className="sprite" />
-      {name}
+      <img
+        src={spriteURL}
+        alt={name}
+        className="sprite"
+        onLoad={() => setSpriteLoaded(true)}
+        style={{ display: spriteLoaded ? "block" : "none" }} 
+      />
+      {spriteLoaded && <p>{name}</p>}
     </div>
   );
 }
@@ -107,6 +113,7 @@ function Buttons({
   setPokedexNum,
   generations,
   skippable,
+  setSpriteLoaded,
 }) {
   const [skipped, setSkipped] = useState(false);
 
@@ -124,6 +131,7 @@ function Buttons({
       setSelected(Array(18).fill(false));
       setPokedexNum(getRandomPokedexNum(generations));
       setSkipped(false);
+      setSpriteLoaded(false);
     } else {
       wrongGuessSound.currentTime = 0.6;
       wrongGuessSound.play();
@@ -149,6 +157,7 @@ function Buttons({
     setSelected(Array(18).fill(false));
     setPokedexNum(getRandomPokedexNum(generations));
     setSkipped(false);
+    setSpriteLoaded(false);
   };
 
   let buttons;
@@ -200,6 +209,7 @@ function Guesser({
   skippable,
 }) {
   const { pokemonData, error, loading } = useRandomPokemon(pokedexNum);
+  const [spriteLoaded, setSpriteLoaded] = useState(false);
 
   if (error) return <p>A network error was encountered</p>;
   if (loading) return <p>Loading...</p>;
@@ -210,7 +220,12 @@ function Guesser({
   return (
     <div className="guesser">
       <TypeSelector selected={selected} setSelected={setSelected} />
-      <PokeInfo name={name} spriteURL={spriteURL} />
+      <PokeInfo
+        name={name}
+        spriteURL={spriteURL}
+        spriteLoaded={spriteLoaded}
+        setSpriteLoaded={setSpriteLoaded}
+      />
       <Buttons
         correctTypes={pokemonData.types.map((x) => x.type.name)}
         selected={selected}
@@ -218,6 +233,7 @@ function Guesser({
         setPokedexNum={setPokedexNum}
         generations={generations}
         skippable={skippable}
+        setSpriteLoaded={setSpriteLoaded}
       />
     </div>
   );
