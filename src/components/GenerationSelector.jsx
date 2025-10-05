@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 import "./GenerationSelector.css";
 import { getValidPokemon } from "../utils/validPokemon";
 
@@ -30,10 +31,29 @@ function GenerationSelector({
   setPokedexNum,
   setSelected,
 }) {
+  // Load saved generations from localStorage on mount
+  useEffect(() => {
+    const savedGenerations = localStorage.getItem("generations");
+    if (savedGenerations) {
+      try {
+        const parsed = JSON.parse(savedGenerations);
+        if (Array.isArray(parsed) && parsed.length === generations.length) {
+          setGenerations(parsed);
+        }
+      } catch (e) {
+        console.error("Error parsing saved generations:", e);
+      }
+    }
+  }, []); // run once on mount
+
   let updateGenerations = (idx) => {
     let nextGenerations = generations.slice();
     nextGenerations[idx] = !nextGenerations[idx];
     setGenerations(nextGenerations);
+
+    // Save new state to localStorage
+    localStorage.setItem("generations", JSON.stringify(nextGenerations));
+
     const validPokemon = getValidPokemon(nextGenerations);
     if (validPokemon.includes(pokedexNum)) return;
 
