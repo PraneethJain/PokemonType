@@ -9,9 +9,14 @@ import "./Casual.css";
 function App() {
   const [generations, setGenerations] = useState(Array(8).fill(true));
   const [selected, setSelected] = useState(Array(18).fill(false));
-  const [pokedexNum, setPokedexNum] = useState(
-    getRandomPokedexNum(generations)
-  );
+  const [pokedexState, setPokedexState] = useState({
+    pokedexNum: getRandomPokedexNum(generations),
+    spriteLoaded: false,
+  });
+
+  const setPokedexNum = (newPokedexNum) => {
+    setPokedexState({ pokedexNum: newPokedexNum, spriteLoaded: false });
+  };
 
   useEffect(() => {
     const bgMusic = new Audio("/bg.mp3");
@@ -30,7 +35,7 @@ function App() {
         <GenerationSelector
           generations={generations}
           setGenerations={setGenerations}
-          pokedexNum={pokedexNum}
+          pokedexNum={pokedexState.pokedexNum}
           setPokedexNum={setPokedexNum}
           setSelected={setSelected}
         ></GenerationSelector>
@@ -38,8 +43,8 @@ function App() {
       </div>
       <div className="middle">
         <Guesser
-          pokedexNum={pokedexNum}
-          setPokedexNum={setPokedexNum}
+          pokedexState={pokedexState} // Pass the entire state
+          setPokedexState={setPokedexState} // Pass the setter
           selected={selected}
           setSelected={setSelected}
           generations={generations}

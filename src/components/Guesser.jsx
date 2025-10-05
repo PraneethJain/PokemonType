@@ -86,17 +86,20 @@ TypeSelector.propTypes = {
   setSelected: PropTypes.func.isRequired,
 };
 
-function PokeInfo({ name, spriteURL, spriteLoaded, setSpriteLoaded }) {
+function PokeInfo({ name, spriteURL, setPokedexState, pokedexState }) {
   return (
     <div className="poke-info">
       <img
         src={spriteURL}
         alt={name}
         className="sprite"
-        onLoad={() => setSpriteLoaded(true)}
-        style={{ display: spriteLoaded ? "block" : "none" }} 
+        style={{ display: pokedexState.spriteLoaded ? "block" : "none" }}
+        onLoad={() =>
+          setPokedexState((prev) => ({ ...prev, spriteLoaded: true }))
+        }
+        // style={{ display: "block" }}
       />
-      {spriteLoaded && <p>{name}</p>}
+      {pokedexState.spriteLoaded && <p>{name}</p>}
     </div>
   );
 }
@@ -104,16 +107,20 @@ function PokeInfo({ name, spriteURL, spriteLoaded, setSpriteLoaded }) {
 PokeInfo.propTypes = {
   name: PropTypes.string.isRequired,
   spriteURL: PropTypes.string.isRequired,
+  setPokedexState: PropTypes.func.isRequired,
+  pokedexState: PropTypes.shape({
+    pokedexNum: PropTypes.number.isRequired,
+    spriteLoaded: PropTypes.bool.isRequired,
+  }).isRequired,
 };
 
 function Buttons({
   correctTypes,
   selected,
   setSelected,
-  setPokedexNum,
+  setPokedexState,
   generations,
   skippable,
-  setSpriteLoaded,
 }) {
   const [skipped, setSkipped] = useState(false);
 
@@ -129,9 +136,11 @@ function Buttons({
       correctGuessSound.currentTime = 0;
       correctGuessSound.play();
       setSelected(Array(18).fill(false));
-      setPokedexNum(getRandomPokedexNum(generations));
+      setPokedexState({
+        pokedexNum: getRandomPokedexNum(generations),
+        spriteLoaded: false,
+      });
       setSkipped(false);
-      setSpriteLoaded(false);
     } else {
       wrongGuessSound.currentTime = 0.6;
       wrongGuessSound.play();
@@ -155,9 +164,11 @@ function Buttons({
     selectSound.currentTime = 0.08;
     selectSound.play();
     setSelected(Array(18).fill(false));
-    setPokedexNum(getRandomPokedexNum(generations));
+    setPokedexState({
+      pokedexNum: getRandomPokedexNum(generations),
+      spriteLoaded: false,
+    });
     setSkipped(false);
-    setSpriteLoaded(false);
   };
 
   let buttons;
@@ -195,21 +206,22 @@ Buttons.propTypes = {
   correctTypes: PropTypes.arrayOf(PropTypes.bool),
   selected: PropTypes.arrayOf(PropTypes.bool),
   setSelected: PropTypes.func,
-  setPokedexNum: PropTypes.func,
+  setPokedexState: PropTypes.func,
   generations: PropTypes.arrayOf(PropTypes.bool),
   skippable: PropTypes.bool,
 };
 
 function Guesser({
-  pokedexNum,
-  setPokedexNum,
+  pokedexState,
+  setPokedexState,
   selected,
   setSelected,
   generations,
   skippable,
 }) {
-  const { pokemonData, error, loading } = useRandomPokemon(pokedexNum);
-  const [spriteLoaded, setSpriteLoaded] = useState(false);
+  const { pokemonData, error, loading } = useRandomPokemon(
+    pokedexState.pokedexNum
+  );
 
   if (error) return <p>A network error was encountered</p>;
   if (loading) return <p>Loading...</p>;
@@ -223,26 +235,27 @@ function Guesser({
       <PokeInfo
         name={name}
         spriteURL={spriteURL}
-        spriteLoaded={spriteLoaded}
-        setSpriteLoaded={setSpriteLoaded}
+        setPokedexState={setPokedexState}
+        pokedexState={pokedexState}
       />
       <Buttons
         correctTypes={pokemonData.types.map((x) => x.type.name)}
         selected={selected}
         setSelected={setSelected}
-        setPokedexNum={setPokedexNum}
+        setPokedexState={setPokedexState}
         generations={generations}
         skippable={skippable}
-        setSpriteLoaded={setSpriteLoaded}
       />
     </div>
   );
 }
 
 Guesser.propTypes = {
-  pokedexNum: PropTypes.number.isRequired,
-  setPokedexNum: PropTypes.func,
-  setToggle: PropTypes.func,
+  pokedexState: PropTypes.shape({
+    pokedexNum: PropTypes.number.isRequired,
+    spriteLoaded: PropTypes.bool.isRequired,
+  }).isRequired,
+  setPokedexState: PropTypes.func.isRequired,
   selected: PropTypes.arrayOf(PropTypes.bool).isRequired,
   setSelected: PropTypes.func.isRequired,
   generations: PropTypes.arrayOf(PropTypes.bool).isRequired,
