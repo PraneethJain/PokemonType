@@ -3,10 +3,11 @@
   min-height: 100vh;
   background-image: url("../assets/bg.jpg");
   background-size: cover;
+  background-position: center;
   font-family: "pokefont";
 
   display: grid;
-  grid-template-rows: 1fr 10fr 1fr;
+  grid-template-rows: auto 1fr auto; /* Adjust rows to fit content dynamically */
 }
 
 .top {
@@ -15,23 +16,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem; /* Add padding for better spacing */
 }
 
 .text-info {
-  margin-right: 2rem;
+  margin: 0 auto; /* Center the text horizontally */
+  text-align: center; /* Ensure the text is centered within its container */
+  font-size: 1.2rem; /* Optional: Adjust font size for better readability */
 }
 
 .middle {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem; /* Add padding to prevent content from touching edges */
 }
 
 .bottom {
   display: flex;
   justify-content: space-between;
-  align-items: end;
-  padding: 0 2rem 0.5rem 2rem;
+  align-items: center; /* Align items to the center */
+  padding: 0 2rem 1rem 2rem; /* Adjust padding for better spacing */
 
   img {
     width: 2rem;
@@ -56,4 +61,24 @@
       }
     }
   }
+}
+
+.score {
+  position: absolute; /* Position it absolutely relative to the parent container */
+  top: 1rem; /* Minimal space from the top */
+  right: 1rem; /* Minimal space from the right */
+  display: flex;
+  flex-direction: column; /* Stack rows vertically */
+  align-items: flex-end; /* Align text to the right */
+  justify-content: center;
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
+  color: white;
+  font-size: 1rem; /* Adjust font size for better readability */
+  z-index: 10; /* Ensure it stays on top of other elements */
+}
+
+.score-row {
+  margin: 0.2rem 0; /* Add slight spacing between rows */
 }

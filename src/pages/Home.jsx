@@ -24,6 +24,7 @@ function Home() {
         <div className="links">
           <Link to="/casual">Casual</Link>
           <Link to="/ranked">Ranked</Link>
+          <Link to="/leaderboard">Leaderboard</Link>
           <Link onClick={logoutHandler}>Logout</Link>
           {user.email}
         </div>

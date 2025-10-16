@@ -1,0 +1,63 @@
+.leaderboard-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-image: url("../assets/bg.jpg"); /* Use the same background as casual page */
+  background-size: cover;
+  color: rgb(0, 0, 0);
+  font-family: "pokefont";
+}
+
+.leaderboard-page h1 {
+  margin-bottom: 1rem;
+}
+
+.leaderboard-page ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.leaderboard-page li {
+  margin: 0.5rem 0;
+  font-size: 1.2rem;
+}
+
+.back-link {
+  margin-top: 1rem;
+  color: #4caf50;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.back-link:hover {
+  color: #45a049;
+}
+
+.bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.right {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.homelink {
+  font-family: pokefont;
+  color: rgb(226, 255, 255);
+  padding: 0.4rem;
+  text-decoration: none;
+}
+
+.homelink:hover {
+  cursor: pointer;
+  color: rgb(154, 230, 237);
+}

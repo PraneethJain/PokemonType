@@ -12,7 +12,7 @@ const useSignup = () => {
     setError(null);
 
     const response = await fetch(
-      "https://pokemontype.as.r.appspot.com/api/user/signup",
+      "https://pokemontype.as.r.appspot.com/api/user/signup", // Updated to deployed backend
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },

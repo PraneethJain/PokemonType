@@ -9,8 +9,8 @@ import "./Casual.css";
 function Score({ score, highScore }) {
   return (
     <div className="score">
-      <div>Score: {score}</div>
-      <div>High Score: {highScore}</div>
+      <div className="score-row">Score: {score}</div>
+      <div className="score-row">High Score: {highScore}</div>
     </div>
   );
 }

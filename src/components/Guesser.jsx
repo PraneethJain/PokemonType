@@ -114,6 +114,18 @@ PokeInfo.propTypes = {
   }).isRequired,
 };
 
+const updateHighScoreInDB = async (email, highScore) => {
+  try {
+    await fetch("https://pokemontype.as.r.appspot.com/api/user/highscore", { // Updated to deployed backend
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, highScore }),
+    });
+  } catch (error) {
+    console.error("Failed to update high score:", error);
+  }
+};
+
 function Buttons({
   correctTypes,
   selected,
@@ -144,6 +156,13 @@ function Buttons({
         setHighScore((prevHighScore) => {
           const newHighScore = Math.max(prevHighScore, newScore);
           localStorage.setItem("highScore", newHighScore);
+
+          // Update high score in the database
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (user) {
+            updateHighScoreInDB(user.email, newHighScore);
+          }
+
           return newHighScore;
         });
         return newScore;
