@@ -5,7 +5,7 @@
   justify-content: center;
   min-height: 100vh;
   min-width: 100vw;
-  background-image: url("../assets/bg.jpg"); /* Use the same background as casual page */
+  background-image: url("../assets/bg.jpg");
   background-size: cover;
   color: rgb(0, 0, 0);
   font-family: "pokefont";
