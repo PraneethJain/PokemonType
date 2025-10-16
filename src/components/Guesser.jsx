@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Guesser.css";
 import { useRandomPokemon } from "../hooks/useRandomPokemon";
 import { getRandomPokedexNum } from "../utils/validPokemon";
@@ -114,6 +114,18 @@ PokeInfo.propTypes = {
   }).isRequired,
 };
 
+const updateHighScoreInDB = async (email, highScore) => {
+  try {
+    await fetch("https://pokemontype.as.r.appspot.com/api/user/highscore", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, highScore }),
+    });
+  } catch (error) {
+    console.error("Failed to update high score:", error);
+  }
+};
+
 function Buttons({
   correctTypes,
   selected,
@@ -121,6 +133,10 @@ function Buttons({
   setPokedexState,
   generations,
   skippable,
+  score,
+  setScore,
+  highScore,
+  setHighScore,
 }) {
   const [skipped, setSkipped] = useState(false);
 
@@ -135,6 +151,22 @@ function Buttons({
     ) {
       correctGuessSound.currentTime = 0;
       correctGuessSound.play();
+      setScore((prevScore) => {
+        const newScore = prevScore + 1;
+        setHighScore((prevHighScore) => {
+          const newHighScore = Math.max(prevHighScore, newScore);
+          localStorage.setItem("highScore", newHighScore);
+
+          // Update high score in the database
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (user) {
+            updateHighScoreInDB(user.email, newHighScore);
+          }
+
+          return newHighScore;
+        });
+        return newScore;
+      });
       setSelected(Array(18).fill(false));
       setPokedexState({
         pokedexNum: getRandomPokedexNum(generations),
@@ -144,6 +176,7 @@ function Buttons({
     } else {
       wrongGuessSound.currentTime = 0.6;
       wrongGuessSound.play();
+      setScore(0);
     }
   };
 
@@ -158,6 +191,7 @@ function Buttons({
       selectSound.play();
     }
     setSelected(newSelected);
+    setScore(0); // Reset score to 0 on giving up
   };
 
   const next = () => {
@@ -209,6 +243,10 @@ Buttons.propTypes = {
   setPokedexState: PropTypes.func,
   generations: PropTypes.arrayOf(PropTypes.bool),
   skippable: PropTypes.bool,
+  score: PropTypes.number,
+  setScore: PropTypes.func,
+  highScore: PropTypes.number,
+  setHighScore: PropTypes.func,
 };
 
 function Guesser({
@@ -218,10 +256,38 @@ function Guesser({
   setSelected,
   generations,
   skippable,
+  score,
+  setScore,
+  highScore,
+  setHighScore,
 }) {
   const { pokemonData, error, loading } = useRandomPokemon(
     pokedexState.pokedexNum
   );
+
+  // Load high score from backend on component mount
+  useEffect(() => {
+    const fetchHighScore = async () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        try {
+          const response = await fetch(
+            `https://pokemontype.as.r.appspot.com/api/user/highscore?email=${user.email}`
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setHighScore(data.highScore);
+          } else {
+            console.error("Failed to fetch high score:", data.error);
+          }
+        } catch (error) {
+          console.error("Failed to fetch high score:", error);
+        }
+      }
+    };
+
+    fetchHighScore();
+  }, [setHighScore]);
 
   if (error) return <p>A network error was encountered</p>;
   if (loading) return <p>Loading...</p>;
@@ -245,6 +311,10 @@ function Guesser({
         setPokedexState={setPokedexState}
         generations={generations}
         skippable={skippable}
+        score={score}
+        setScore={setScore}
+        highScore={highScore}
+        setHighScore={setHighScore}
       />
     </div>
   );
@@ -260,6 +330,10 @@ Guesser.propTypes = {
   setSelected: PropTypes.func.isRequired,
   generations: PropTypes.arrayOf(PropTypes.bool).isRequired,
   skippable: PropTypes.bool.isRequired,
+  score: PropTypes.number.isRequired,
+  setScore: PropTypes.func.isRequired,
+  highScore: PropTypes.number.isRequired,
+  setHighScore: PropTypes.func.isRequired,
 };
 
 export { Guesser };
