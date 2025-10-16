@@ -265,12 +265,28 @@ function Guesser({
     pokedexState.pokedexNum
   );
 
-  // Load high score from localStorage on component mount
+  // Load high score from backend on component mount
   useEffect(() => {
-    const storedHighScore = localStorage.getItem("highScore");
-    if (storedHighScore) {
-      setHighScore(parseInt(storedHighScore, 10));
-    }
+    const fetchHighScore = async () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        try {
+          const response = await fetch(
+            `https://pokemontype.as.r.appspot.com/api/user/highscore?email=${user.email}`
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setHighScore(data.highScore);
+          } else {
+            console.error("Failed to fetch high score:", data.error);
+          }
+        } catch (error) {
+          console.error("Failed to fetch high score:", error);
+        }
+      }
+    };
+
+    fetchHighScore();
   }, [setHighScore]);
 
   if (error) return <p>A network error was encountered</p>;
