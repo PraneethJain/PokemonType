@@ -73,3 +73,12 @@
     cursor: pointer;
   }
 }
+
+.text-info {
+  transition: opacity 0.3s ease-in-out;
+}
+
+.container:hover ~ .text-info {
+  opacity: 0;
+  visibility: hidden;
+}

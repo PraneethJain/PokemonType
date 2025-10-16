@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Guesser.css";
 import { useRandomPokemon } from "../hooks/useRandomPokemon";
 import { getRandomPokedexNum } from "../utils/validPokemon";
@@ -121,6 +121,10 @@ function Buttons({
   setPokedexState,
   generations,
   skippable,
+  score,
+  setScore,
+  highScore,
+  setHighScore,
 }) {
   const [skipped, setSkipped] = useState(false);
 
@@ -135,6 +139,15 @@ function Buttons({
     ) {
       correctGuessSound.currentTime = 0;
       correctGuessSound.play();
+      setScore((prevScore) => {
+        const newScore = prevScore + 1;
+        setHighScore((prevHighScore) => {
+          const newHighScore = Math.max(prevHighScore, newScore);
+          localStorage.setItem("highScore", newHighScore);
+          return newHighScore;
+        });
+        return newScore;
+      });
       setSelected(Array(18).fill(false));
       setPokedexState({
         pokedexNum: getRandomPokedexNum(generations),
@@ -144,6 +157,7 @@ function Buttons({
     } else {
       wrongGuessSound.currentTime = 0.6;
       wrongGuessSound.play();
+      setScore(0);
     }
   };
 
@@ -158,6 +172,7 @@ function Buttons({
       selectSound.play();
     }
     setSelected(newSelected);
+    setScore(0); // Reset score to 0 on giving up
   };
 
   const next = () => {
@@ -209,6 +224,10 @@ Buttons.propTypes = {
   setPokedexState: PropTypes.func,
   generations: PropTypes.arrayOf(PropTypes.bool),
   skippable: PropTypes.bool,
+  score: PropTypes.number,
+  setScore: PropTypes.func,
+  highScore: PropTypes.number,
+  setHighScore: PropTypes.func,
 };
 
 function Guesser({
@@ -218,10 +237,22 @@ function Guesser({
   setSelected,
   generations,
   skippable,
+  score,
+  setScore,
+  highScore,
+  setHighScore,
 }) {
   const { pokemonData, error, loading } = useRandomPokemon(
     pokedexState.pokedexNum
   );
+
+  // Load high score from localStorage on component mount
+  useEffect(() => {
+    const storedHighScore = localStorage.getItem("highScore");
+    if (storedHighScore) {
+      setHighScore(parseInt(storedHighScore, 10));
+    }
+  }, [setHighScore]);
 
   if (error) return <p>A network error was encountered</p>;
   if (loading) return <p>Loading...</p>;
@@ -245,6 +276,10 @@ function Guesser({
         setPokedexState={setPokedexState}
         generations={generations}
         skippable={skippable}
+        score={score}
+        setScore={setScore}
+        highScore={highScore}
+        setHighScore={setHighScore}
       />
     </div>
   );
@@ -260,6 +295,10 @@ Guesser.propTypes = {
   setSelected: PropTypes.func.isRequired,
   generations: PropTypes.arrayOf(PropTypes.bool).isRequired,
   skippable: PropTypes.bool.isRequired,
+  score: PropTypes.number.isRequired,
+  setScore: PropTypes.func.isRequired,
+  highScore: PropTypes.number.isRequired,
+  setHighScore: PropTypes.func.isRequired,
 };
 
 export { Guesser };
