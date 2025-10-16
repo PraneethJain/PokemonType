@@ -8,7 +8,9 @@ function Leaderboard() {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const response = await fetch("https://pokemontype.as.r.appspot.com/api/user/leaderboard"); // Updated to deployed backend
+        const response = await fetch(
+          "https://pokemontype.as.r.appspot.com/api/user/leaderboard?n=5"
+        );
         const data = await response.json();
         setLeaderboard(data);
       } catch (error) {
