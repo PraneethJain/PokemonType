@@ -24,7 +24,7 @@ function Router() {
     },
     {
       path: "leaderboard",
-      element: <Leaderboard />, // Add leaderboard route
+      element: <Leaderboard />,
     },
     {
       path: "casual",

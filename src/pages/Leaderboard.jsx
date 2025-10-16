@@ -31,7 +31,7 @@ function Leaderboard() {
           </li>
         ))}
       </ul>
-      <div className="bottom">
+      <div className="bottom-lb">
         <div className="right">
           <Link to="/" className="homelink">
             Home
