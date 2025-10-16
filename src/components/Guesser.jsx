@@ -116,7 +116,7 @@ PokeInfo.propTypes = {
 
 const updateHighScoreInDB = async (email, highScore) => {
   try {
-    await fetch("https://pokemontype.as.r.appspot.com/api/user/highscore", { // Updated to deployed backend
+    await fetch("https://pokemontype.as.r.appspot.com/api/user/highscore", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, highScore }),
