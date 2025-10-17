@@ -40,6 +40,10 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    setScore(0);
+  }, [generations]);
+
   return (
     <div className="app">
       <div className="top">
@@ -55,8 +59,8 @@ function App() {
       </div>
       <div className="middle">
         <Guesser
-          pokedexState={pokedexState} // Pass the entire state
-          setPokedexState={setPokedexState} // Pass the setter
+          pokedexState={pokedexState}
+          setPokedexState={setPokedexState}
           selected={selected}
           setSelected={setSelected}
           generations={generations}
