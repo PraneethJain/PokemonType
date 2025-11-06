@@ -6,12 +6,28 @@ import { Link } from "react-router-dom";
 import githubImage from "../assets/github.png";
 import "./Casual.css";
 
+function Score({ score, highScore }) {
+  return (
+    <div className="score">
+      <div className="score-row">Score: {score}</div>
+      <div className="score-row">High Score: {highScore}</div>
+    </div>
+  );
+}
+
 function App() {
   const [generations, setGenerations] = useState(Array(8).fill(true));
   const [selected, setSelected] = useState(Array(18).fill(false));
-  const [pokedexNum, setPokedexNum] = useState(
-    getRandomPokedexNum(generations)
-  );
+  const [pokedexState, setPokedexState] = useState({
+    pokedexNum: getRandomPokedexNum(generations),
+    spriteLoaded: false,
+  });
+  const [score, setScore] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+
+  const setPokedexNum = (newPokedexNum) => {
+    setPokedexState({ pokedexNum: newPokedexNum, spriteLoaded: false });
+  };
 
   useEffect(() => {
     const bgMusic = new Audio("/bg.mp3");
@@ -24,26 +40,35 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    setScore(0);
+  }, [generations]);
+
   return (
     <div className="app">
       <div className="top">
         <GenerationSelector
           generations={generations}
           setGenerations={setGenerations}
-          pokedexNum={pokedexNum}
+          pokedexNum={pokedexState.pokedexNum}
           setPokedexNum={setPokedexNum}
           setSelected={setSelected}
-        ></GenerationSelector>
+        />
         <div className="text-info">Guess the Pokémon&apos;s types</div>
+        <Score score={score} highScore={highScore} />
       </div>
       <div className="middle">
         <Guesser
-          pokedexNum={pokedexNum}
-          setPokedexNum={setPokedexNum}
+          pokedexState={pokedexState}
+          setPokedexState={setPokedexState}
           selected={selected}
           setSelected={setSelected}
           generations={generations}
           skippable={true}
+          score={score}
+          setScore={setScore}
+          highScore={highScore}
+          setHighScore={setHighScore}
         />
       </div>
       <div className="bottom">

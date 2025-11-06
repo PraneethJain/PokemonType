@@ -11,6 +11,7 @@ import Ranked from "./pages/Ranked";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import ErrorPage from "./pages/ErrorPage";
+import Leaderboard from "./pages/Leaderboard";
 
 function Router() {
   const { user } = useAuthContext();
@@ -20,6 +21,10 @@ function Router() {
       path: "/",
       element: <Home />,
       errorElement: <ErrorPage />,
+    },
+    {
+      path: "leaderboard",
+      element: <Leaderboard />,
     },
     {
       path: "casual",

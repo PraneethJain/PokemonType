@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Guesser.css";
 import { useRandomPokemon } from "../hooks/useRandomPokemon";
 import { getRandomPokedexNum } from "../utils/validPokemon";
@@ -86,17 +86,20 @@ TypeSelector.propTypes = {
   setSelected: PropTypes.func.isRequired,
 };
 
-function PokeInfo({ name, spriteURL, spriteLoaded, setSpriteLoaded }) {
+function PokeInfo({ name, spriteURL, setPokedexState, pokedexState }) {
   return (
     <div className="poke-info">
       <img
         src={spriteURL}
         alt={name}
         className="sprite"
-        onLoad={() => setSpriteLoaded(true)}
-        style={{ display: spriteLoaded ? "block" : "none" }} 
+        style={{ display: pokedexState.spriteLoaded ? "block" : "none" }}
+        onLoad={() =>
+          setPokedexState((prev) => ({ ...prev, spriteLoaded: true }))
+        }
+        // style={{ display: "block" }}
       />
-      {spriteLoaded && <p>{name}</p>}
+      {pokedexState.spriteLoaded && <p>{name}</p>}
     </div>
   );
 }
@@ -104,16 +107,36 @@ function PokeInfo({ name, spriteURL, spriteLoaded, setSpriteLoaded }) {
 PokeInfo.propTypes = {
   name: PropTypes.string.isRequired,
   spriteURL: PropTypes.string.isRequired,
+  setPokedexState: PropTypes.func.isRequired,
+  pokedexState: PropTypes.shape({
+    pokedexNum: PropTypes.number.isRequired,
+    spriteLoaded: PropTypes.bool.isRequired,
+  }).isRequired,
+};
+
+const updateHighScoreInDB = async (email, highScore) => {
+  try {
+    await fetch("https://pokemontype.as.r.appspot.com/api/user/highscore", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, highScore }),
+    });
+  } catch (error) {
+    console.error("Failed to update high score:", error);
+  }
 };
 
 function Buttons({
   correctTypes,
   selected,
   setSelected,
-  setPokedexNum,
+  setPokedexState,
   generations,
   skippable,
-  setSpriteLoaded,
+  score,
+  setScore,
+  highScore,
+  setHighScore,
 }) {
   const [skipped, setSkipped] = useState(false);
 
@@ -128,13 +151,32 @@ function Buttons({
     ) {
       correctGuessSound.currentTime = 0;
       correctGuessSound.play();
+      setScore((prevScore) => {
+        const newScore = prevScore + 1;
+        setHighScore((prevHighScore) => {
+          const newHighScore = Math.max(prevHighScore, newScore);
+          localStorage.setItem("highScore", newHighScore);
+
+          // Update high score in the database
+          const user = JSON.parse(localStorage.getItem("user"));
+          if (user) {
+            updateHighScoreInDB(user.email, newHighScore);
+          }
+
+          return newHighScore;
+        });
+        return newScore;
+      });
       setSelected(Array(18).fill(false));
-      setPokedexNum(getRandomPokedexNum(generations));
+      setPokedexState({
+        pokedexNum: getRandomPokedexNum(generations),
+        spriteLoaded: false,
+      });
       setSkipped(false);
-      setSpriteLoaded(false);
     } else {
       wrongGuessSound.currentTime = 0.6;
       wrongGuessSound.play();
+      setScore(0);
     }
   };
 
@@ -149,15 +191,18 @@ function Buttons({
       selectSound.play();
     }
     setSelected(newSelected);
+    setScore(0); // Reset score to 0 on giving up
   };
 
   const next = () => {
     selectSound.currentTime = 0.08;
     selectSound.play();
     setSelected(Array(18).fill(false));
-    setPokedexNum(getRandomPokedexNum(generations));
+    setPokedexState({
+      pokedexNum: getRandomPokedexNum(generations),
+      spriteLoaded: false,
+    });
     setSkipped(false);
-    setSpriteLoaded(false);
   };
 
   let buttons;
@@ -195,21 +240,54 @@ Buttons.propTypes = {
   correctTypes: PropTypes.arrayOf(PropTypes.bool),
   selected: PropTypes.arrayOf(PropTypes.bool),
   setSelected: PropTypes.func,
-  setPokedexNum: PropTypes.func,
+  setPokedexState: PropTypes.func,
   generations: PropTypes.arrayOf(PropTypes.bool),
   skippable: PropTypes.bool,
+  score: PropTypes.number,
+  setScore: PropTypes.func,
+  highScore: PropTypes.number,
+  setHighScore: PropTypes.func,
 };
 
 function Guesser({
-  pokedexNum,
-  setPokedexNum,
+  pokedexState,
+  setPokedexState,
   selected,
   setSelected,
   generations,
   skippable,
+  score,
+  setScore,
+  highScore,
+  setHighScore,
 }) {
-  const { pokemonData, error, loading } = useRandomPokemon(pokedexNum);
-  const [spriteLoaded, setSpriteLoaded] = useState(false);
+  const { pokemonData, error, loading } = useRandomPokemon(
+    pokedexState.pokedexNum
+  );
+
+  // Load high score from backend on component mount
+  useEffect(() => {
+    const fetchHighScore = async () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (user) {
+        try {
+          const response = await fetch(
+            `https://pokemontype.as.r.appspot.com/api/user/highscore?email=${user.email}`
+          );
+          const data = await response.json();
+          if (response.ok) {
+            setHighScore(data.highScore);
+          } else {
+            console.error("Failed to fetch high score:", data.error);
+          }
+        } catch (error) {
+          console.error("Failed to fetch high score:", error);
+        }
+      }
+    };
+
+    fetchHighScore();
+  }, [setHighScore]);
 
   if (error) return <p>A network error was encountered</p>;
   if (loading) return <p>Loading...</p>;
@@ -223,30 +301,39 @@ function Guesser({
       <PokeInfo
         name={name}
         spriteURL={spriteURL}
-        spriteLoaded={spriteLoaded}
-        setSpriteLoaded={setSpriteLoaded}
+        setPokedexState={setPokedexState}
+        pokedexState={pokedexState}
       />
       <Buttons
         correctTypes={pokemonData.types.map((x) => x.type.name)}
         selected={selected}
         setSelected={setSelected}
-        setPokedexNum={setPokedexNum}
+        setPokedexState={setPokedexState}
         generations={generations}
         skippable={skippable}
-        setSpriteLoaded={setSpriteLoaded}
+        score={score}
+        setScore={setScore}
+        highScore={highScore}
+        setHighScore={setHighScore}
       />
     </div>
   );
 }
 
 Guesser.propTypes = {
-  pokedexNum: PropTypes.number.isRequired,
-  setPokedexNum: PropTypes.func,
-  setToggle: PropTypes.func,
+  pokedexState: PropTypes.shape({
+    pokedexNum: PropTypes.number.isRequired,
+    spriteLoaded: PropTypes.bool.isRequired,
+  }).isRequired,
+  setPokedexState: PropTypes.func.isRequired,
   selected: PropTypes.arrayOf(PropTypes.bool).isRequired,
   setSelected: PropTypes.func.isRequired,
   generations: PropTypes.arrayOf(PropTypes.bool).isRequired,
   skippable: PropTypes.bool.isRequired,
+  score: PropTypes.number.isRequired,
+  setScore: PropTypes.func.isRequired,
+  highScore: PropTypes.number.isRequired,
+  setHighScore: PropTypes.func.isRequired,
 };
 
 export { Guesser };
