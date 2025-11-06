@@ -1,5 +1,7 @@
 # PokemonType
 
+> This repository has been archived and the backend is no longer hosted.
+
 Guess the Pokemon's Type
 
 View live at: https://pokemon-type-five.vercel.app/
